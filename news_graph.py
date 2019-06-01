@@ -294,7 +294,7 @@ class NewsMining():
                            collected_ners):
             if self.is_eniglish(word.word):
                 word.word = word.word.lower()
-            if word not in self.stop_word and not self.is_number(word.word):
+            if word.word not in self.stop_word and not self.is_number(word.word):
                 words_postags += [word]
                 if word.bunrui in self.ners:
                     collected_ners += [word]

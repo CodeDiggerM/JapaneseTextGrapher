@@ -33,7 +33,7 @@ class NewsMining():
         self.NUM_KEYWORD = 10
         # dependency markers for objects
         self.OBJECTS = {"dobj", "dative", "attr", "oprd"}
-        self.stop_word = self.load_stopwords("stop_word")
+        self.stop_word = self.load_stopwords("stopword")
 
         self.graph_shower = GraphShow()
         self.knp = KNP(command=knppath,

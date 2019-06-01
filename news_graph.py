@@ -327,7 +327,7 @@ class NewsMining():
                 events.append([t[0], t[1]])
 
         # 05 get word frequency and add to events
-        word_dict = [i[0] for i[0] in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
+        word_dict = [i[0] for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
                                         ]).most_common(10)]
         for wd in word_dict:
             name = wd

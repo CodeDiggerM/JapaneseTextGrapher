@@ -63,22 +63,23 @@ class GraphShow():
         for event in events:
             nodes.append(event[0])
             nodes.append(event[1])
-        node_dict = {node: index for index, node in enumerate(nodes)}
+        node_dict = {node[0]: (index,node[1]) for index, node in enumerate(nodes)}
 
         data_nodes = []
         data_edges = []
-        for node, id in node_dict.items():
+        for node, id_color in node_dict.items():
             data = {}
             data["group"] = 'Event'
-            data["id"] = id
+            data["id"] = id_color[0]
             data["label"] = node
+            data["color"] = id_color[1]
             data_nodes.append(data)
 
         for edge in events:
             data = {}
-            data['from'] = node_dict.get(edge[0])
+            data['from'] = node_dict.get(edge[0][0])
             data['label'] = ''
-            data['to'] = node_dict.get(edge[1])
+            data['to'] = node_dict.get(edge[1][0])
             data_edges.append(data)
 
         self.create_html(data_nodes, data_edges)

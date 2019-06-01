@@ -12,6 +12,11 @@ from word import Word
 class NewsMining():
     """News Mining"""
     MOST_FREQUENTLY = 5
+    FREQUENCY_COLOR = "yellow"
+    KEYWORD_COLOR = "red"
+    NER_COLOR = "green"
+    SVO_COLOR = "blue"
+    DEFAULT_COLOR = "rgba(51,255,153,0.2)"
     def __init__(self,
                  knppath="/home/sasano/usr/bin/knp",
                  juman="/home/sasano/usr/bin/juman",
@@ -326,14 +331,15 @@ class NewsMining():
         for keyword in keywords:
             name = keyword
             cate = 'キーワード'
-            events.append([name, cate])
+            color = self.KEYWORD_COLOR
+            events.append([[name, self.DEFAULT_COLOR], [cate, color]])
 
         # 04 add triples to event only the word in keyword
         for t in triples:
             if (t[0] in keywords or t[1] in keywords) and len(t[0]) > 1 and len(t[1]) > 1:
-                events.append([t[0], t[1]])
+                events.append([[t[0], self.DEFAULT_COLOR], [t[1], self.DEFAULT_COLOR]])
                 if len(t[2]) > 0:
-                    events.append([t[1], t[2]])
+                    events.append([[t[1]],self.DEFAULT_COLOR],[[t[2], self.DEFAULT_COLOR]])
 
         # 05 get word frequency and add to events
         word_dict = [i[0] for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
@@ -341,20 +347,22 @@ class NewsMining():
         for wd in word_dict:
             name = wd
             cate = '頻出単語'
-            events.append([name, cate])
+            color = self.FREQUENCY_COLOR
+
+            events.append([[name, self.DEFAULT_COLOR], [cate, color]])
 
         # 06 get NER from whole article
         ner_dict = {word[0].word + '/' + word[0].bunrui: word[0] for word in Counter(ners).most_common(self.MOST_FREQUENTLY)}
         for ner in ner_dict:
             name = ner_dict[ner].word # Jessica Miller
             cate = ner_dict[ner].bunrui  # PERSON
-            events.append([name, cate])
+            events.append([name, cate, self.NER_COLOR])
 
         # 07 get all NER entity co-occurrence information
         # here ner_dict is from above 06
         co_dict = self.collect_coexist(ner_sents, list(ner_dict.keys()))
-        co_events = [[i.split('@')[0].split(
-            '/')[0], i.split('@')[1].split('/')[0]] for i in co_dict]
+        co_events = [[[i.split('@')[0].split('/')[0], self.DEFAULT_COLOR],
+                      [i.split('@')[1].split('/')[0], self.DEFAULT_COLOR]] for i in co_dict]
         events += co_events
 
         # 08 show event graph

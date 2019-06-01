@@ -92,11 +92,11 @@ class NewsMining():
                         elif u"動詞" in hinsi:
                             verb = genki
                         elif u"名詞" in hinsi and len(obj) == 0:
-                            obj = " " + genki
+                            obj = genki
                         if len(sub) > 0 and len(verb) > 0 and len(obj) > 0:
                             break
             if (len(sub) > 0 or len(obj) > 0) and len(verb) > 0:
-                print(u":".join([sub, verb + u" " +  obj]))
+                print(u":".join([sub, verb, obj]))
                 sov += [(sub, verb + obj)]
             if bnst.parent_id != -1 and bnst.mrph_list()[0].genkei not in self.stop_word:
                 # (from, to)
@@ -327,6 +327,8 @@ class NewsMining():
         for t in triples:
             if (t[0] in keywords or t[1] in keywords) and len(t[0]) > 1 and len(t[1]) > 1:
                 events.append([t[0], t[1]])
+                if len(t[2]) > 0:
+                    events.append([t[1], t[2]])
 
         # 05 get word frequency and add to events
         word_dict = [i[0] for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event

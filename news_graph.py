@@ -102,8 +102,15 @@ class NewsMining():
                             obj = genki
                         if len(sub) > 0 and len(verb) > 0 and len(obj) > 0:
                             break
-            if (len(sub) > 0 or len(obj) > 0) and len(verb) > 0:
-                sov += [(sub, verb, obj)]
+                tmp = []
+                if len(sub) > 0:
+                    tmp += [sub]
+                if len(obj) > 0:
+                    tmp += [obj]
+                if len(verb) > 0:
+                    tmp += [verb]
+                if len(tmp) > 1:
+                sov += [tmp]
             if bnst.parent_id != -1 and bnst.mrph_list()[0].genkei not in self.stop_word:
                 # (from, to)
                 genki = bnst.mrph_list()[0].genkei
@@ -138,8 +145,8 @@ class NewsMining():
         p1 = re.compile(r'（[^）]*）')
         p2 = re.compile(r'\([^\)]*\)')
         text = p2.sub('', p1.sub('', content))
-        text = self.remove_chars(text, "1234567890")
-        return self.remove_chars(text, u"1234567890")
+        text = self.remove_chars(text, "1234567890*")
+        return self.remove_chars(text, u"1234567890*")
 
     def collect_ners(self, ents):
         """Collect token only with PERSON, ORG, GPE"""
@@ -310,11 +317,17 @@ class NewsMining():
                 if word.bunrui in self.ners:
                     collected_ners += [word]
 
-        for sent in sents:
+        all_line = len(sents)
+        for i, sent in enumerate(sents):
             if len(sent) <= 1:
                 continue
+            print("%d of %d, %.4f completed" % (i, all_line, i * 100/ all_line))
             gc.collect()
-            word_pairs, sov = self.select_dependency_structure(sent)
+            try:
+                word_pairs, sov = self.select_dependency_structure(sent)
+            except:
+                print(sent)
+                continue
             for word_pair in word_pairs:
                 check_and_fill(word_pair[0],
                                words_postags,
@@ -338,7 +351,7 @@ class NewsMining():
         for t in triples:
             if (t[0] in keywords or t[1] in keywords) and len(t[0]) > 1 and len(t[1]) > 1:
                 events.append([[t[0], self.DEFAULT_COLOR], [t[1], self.VERB_COLOR]])
-                if len(t[2]) > 0:
+                if len(t) > 1:
                     events.append([[t[1], self.VERB_COLOR],
                                    [t[2], self.DEFAULT_COLOR]])
 

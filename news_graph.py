@@ -286,7 +286,7 @@ class NewsMining():
         content = self.remove_noisy(content)
         content = self.clean_spaces(content)
         sents = nltk.RegexpTokenizer(u'[^　！？。.]*[！？。.\n]').tokenize(content)
-
+        print(sents)
         def check_and_fill(word,
                            words_postags,
                            collected_ners):

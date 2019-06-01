@@ -86,18 +86,19 @@ class NewsMining():
                     genki = node.mrph_list()[0].genkei
                     hinsi = node.mrph_list()[0].hinsi
                     # print(genki,hinsi )
-                    if u"名詞" in hinsi and len(sub) == 0:
-                        sub = genki
-                    elif u"動詞" in hinsi:
-                        verb = genki
-                    elif u"名詞" in hinsi and len(obj) == 0:
-                        obj = " " + genki
-                    if len(sub) > 0 and len(verb) > 0 and len(obj) > 0:
-                        break
-            if len(sub) > 0 or len(verb) > 0 or len(obj) > 0:
+                    if genki not in self.stop_word and bunrui != "*":
+                        if u"名詞" in hinsi and len(sub) == 0:
+                            sub = genki
+                        elif u"動詞" in hinsi:
+                            verb = genki
+                        elif u"名詞" in hinsi and len(obj) == 0:
+                            obj = " " + genki
+                        if len(sub) > 0 and len(verb) > 0 and len(obj) > 0:
+                            break
+            if (len(sub) > 0 or len(obj) > 0) and len(verb) > 0:
                 print(u":".join([sub, verb, obj]))
-                sov += [(sub, verb + obj)]
-            if bnst.parent_id != -1:
+                sov += [(sub, verb, obj)]
+            if bnst.parent_id != -1 and bnst.mrph_list()[0].genkei not in self.stop_word:
                 # (from, to)
                 genki = bnst.mrph_list()[0].genkei
                 hinsi = bnst.mrph_list()[0].hinsi

@@ -330,7 +330,7 @@ class NewsMining():
         word_dict = [i for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
                                         ]).most_common()][:10]
         for wd in word_dict:
-            name = wd.word
+            name = wd
             cate = 'frequency'
             events.append([name, cate])
 

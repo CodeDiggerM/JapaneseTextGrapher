@@ -12,12 +12,12 @@ from word import Word
 class NewsMining():
     """News Mining"""
     MOST_FREQUENTLY = 5
-    FREQUENCY_COLOR = "yellow"
-    KEYWORD_COLOR = "red"
-    NER_COLOR = "green"
-    SVO_COLOR = "blue"
-    TYPE_COLOR = "rgba(204,204,51,0.2)"
-    DEFAULT_COLOR = "rgba(51,255,153,0.2)"
+    FREQUENCY_COLOR = "rgba(255,255,102,0.8)"
+    KEYWORD_COLOR = "rgba(255,51,51,0.8)"
+    NER_COLOR = "rgba(102,204,102,0.8)"
+    SVO_COLOR = "rgba(102,153,255,0.8)"
+    TYPE_COLOR = "rgba(204,204,51,0.8)"
+    DEFAULT_COLOR = "rgba(51,255,153,0.8)"
     def __init__(self,
                  knppath="/home/sasano/usr/bin/knp",
                  juman="/home/sasano/usr/bin/juman",

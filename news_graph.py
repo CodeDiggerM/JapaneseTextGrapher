@@ -117,7 +117,8 @@ class NewsMining():
 
     def clean_spaces(self, s):
         s = s.replace('\r', '')
-        s = s.replace('\t', ' ')
+        s = s.replace('\t', '')
+        s = s.replace(' ', '')
         return s
 
     def remove_noisy(self, content):

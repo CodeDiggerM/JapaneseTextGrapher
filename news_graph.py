@@ -130,8 +130,8 @@ class NewsMining():
         p1 = re.compile(r'（[^）]*）')
         p2 = re.compile(r'\([^\)]*\)')
         text = p2.sub('', p1.sub('', content))
-        text = self.removeChars(text, "1234567890")
-        return self.removeChars(text, u"1234567890")
+        text = self.remove_chars(text, "1234567890")
+        return self.remove_chars(text, u"1234567890")
 
     def collect_ners(self, ents):
         """Collect token only with PERSON, ORG, GPE"""

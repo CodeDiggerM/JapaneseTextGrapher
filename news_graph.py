@@ -327,15 +327,15 @@ class NewsMining():
                 events.append([t[0], t[1]])
 
         # 05 get word frequency and add to events
-        word_dict = [i for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
-                                        ]).most_common()][:10]
+        word_dict = [i[0] for i[0] in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
+                                        ]).most_common(10)]
         for wd in word_dict:
             name = wd
             cate = 'frequency'
             events.append([name, cate])
 
         # 06 get NER from whole article
-        ner_dict = {word.word + '/' + word.bunrui: word for word in Counter(ners).most_common(20)}
+        ner_dict = {word[0].word + '/' + word[0].bunrui: word for word in Counter(ners).most_common(20)}
         for ner in ner_dict:
             name = ner_dict[ner].word # Jessica Miller
             cate = ner_dict[ner].bunrui  # PERSON

@@ -86,7 +86,7 @@ class NewsMining():
                     genki = node.mrph_list()[0].genkei
                     hinsi = node.mrph_list()[0].hinsi
                     # print(genki,hinsi )
-                    if genki not in self.stop_word and bunrui != "*":
+                    if genki not in self.stop_word:
                         if u"名詞" in hinsi and len(sub) == 0:
                             sub = genki
                         elif u"動詞" in hinsi:

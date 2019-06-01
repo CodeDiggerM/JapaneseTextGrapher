@@ -299,7 +299,6 @@ class NewsMining():
         content = self.remove_noisy(content)
         content = self.clean_spaces(content)
         sents = nltk.RegexpTokenizer(u'[^　！？。.]*[！？。.\n]').tokenize(content)
-        print(sents)
         def check_and_fill(word,
                            words_postags,
                            collected_ners):
@@ -331,8 +330,7 @@ class NewsMining():
         keywords = [i[0] for i in self.extract_keywords(words_postags)]
         for keyword in keywords:
             name = keyword
-            cate = 'キーワード'
-            events.append([[name, self.DEFAULT_COLOR], [cate, self.KEYWORD_COLOR]])
+            events.append([[name, self.DEFAULT_COLOR], ['キーワード', self.KEYWORD_COLOR]])
 
         # 04 add triples to event only the word in keyword
         for t in triples:
@@ -340,15 +338,14 @@ class NewsMining():
                 events.append([[t[0], self.DEFAULT_COLOR], [t[1], self.DEFAULT_COLOR]])
                 if len(t[2]) > 0:
                     events.append([[t[1],self.DEFAULT_COLOR],
-                                   [[t[2], self.DEFAULT_COLOR]]])
+                                   [t[2], self.DEFAULT_COLOR]])
 
         # 05 get word frequency and add to events
         word_dict = [i[0] for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
                                         ]).most_common(self.MOST_FREQUENTLY)]
         for wd in word_dict:
             name = wd
-            cate = '頻出単語'
-            events.append([[name, self.DEFAULT_COLOR], [cate, self.FREQUENCY_COLOR]])
+            events.append([[name, self.DEFAULT_COLOR], ['頻出単語', self.FREQUENCY_COLOR]])
 
         # 06 get NER from whole article
         ner_dict = {word[0].word + '/' + word[0].bunrui: word[0] for word in Counter(ners).most_common(self.MOST_FREQUENTLY)}

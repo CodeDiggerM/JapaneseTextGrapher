@@ -55,7 +55,6 @@ class GraphShow():
     </body>
     </html>
     '''
-    
 
     def create_page(self, events):
         """Read data"""

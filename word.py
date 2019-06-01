@@ -10,3 +10,5 @@ class Word(object):
         self.hinsi = hinsi
         self.bunrui = bunrui
 
+    def __eq__(self, obj):
+        return isinstance(obj, Word) and obj.word == self.word

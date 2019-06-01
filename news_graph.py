@@ -297,7 +297,7 @@ class NewsMining():
             if word not in self.stop_word and not self.is_number(word.word):
                 words_postags += [word]
                 if word.bunrui in self.ners:
-                    collected_ners += [word.word]
+                    collected_ners += [word]
 
         for sent in sents:
             word_pairs, sov = self.select_dependency_structure(sent)
@@ -335,7 +335,7 @@ class NewsMining():
             events.append([name, cate])
 
         # 06 get NER from whole article
-        ner_dict = {word.word + '/' + word.bunrui : word for word in Counter(ners).most_common(20)}
+        ner_dict = {word.word + '/' + word.bunrui: word for word in Counter(ners).most_common(20)}
         for ner in ner_dict:
             name = ner_dict[ner].word # Jessica Miller
             cate = ner_dict[ner].bunrui  # PERSON

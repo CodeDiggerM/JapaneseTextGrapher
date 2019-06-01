@@ -11,6 +11,7 @@ from word import Word
 
 class NewsMining():
     """News Mining"""
+    MOST_FREQUENTLY = 5
     def __init__(self,
                  knppath="/home/sasano/usr/bin/knp",
                  juman="/home/sasano/usr/bin/juman",
@@ -336,14 +337,14 @@ class NewsMining():
 
         # 05 get word frequency and add to events
         word_dict = [i[0] for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
-                                        ]).most_common(10)]
+                                        ]).most_common(self.MOST_FREQUENTLY)]
         for wd in word_dict:
             name = wd
             cate = '頻出単語'
             events.append([name, cate])
 
         # 06 get NER from whole article
-        ner_dict = {word[0].word + '/' + word[0].bunrui: word[0] for word in Counter(ners).most_common(20)}
+        ner_dict = {word[0].word + '/' + word[0].bunrui: word[0] for word in Counter(ners).most_common(self.MOST_FREQUENTLY)}
         for ner in ner_dict:
             name = ner_dict[ner].word # Jessica Miller
             cate = ner_dict[ner].bunrui  # PERSON

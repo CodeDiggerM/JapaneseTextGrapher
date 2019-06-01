@@ -1,19 +1,13 @@
 # coding:utf-8
 
-import re
 from collections import Counter
-import spacy
 from graph_show import GraphShow
 from textrank import TextRank
-import MeCab
 import io
 from pyknp import Juman, KNP
 import re
 import nltk
-import sys
-import os
-import codecs
-from word import Word
+
 
 class NewsMining():
     """News Mining"""

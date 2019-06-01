@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec58fad4-0bd1-4241-9fbf-64b6bf72b11a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/stopword" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/word.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/news_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/news_graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/textrank.py" beforeDir="false" afterPath="$PROJECT_DIR$/textrank.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,11 +92,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/news_graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="40" column="57" lean-forward="true" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
+            <state relative-caret-position="251">
+              <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
               <folding>
-                <element signature="e#16#25#0" expanded="true" />
-                <marker date="1559353345811" expanded="true" signature="10412:10424" ph="..." />
+                <element signature="e#16#47#0" expanded="true" />
+                <marker date="1559353620794" expanded="true" signature="10320:10332" ph="..." />
               </folding>
             </state>
           </provider>
@@ -340,11 +336,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/news_graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="57" lean-forward="true" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
+        <state relative-caret-position="251">
+          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
           <folding>
-            <element signature="e#16#25#0" expanded="true" />
-            <marker date="1559353345811" expanded="true" signature="10412:10424" ph="..." />
+            <element signature="e#16#47#0" expanded="true" />
+            <marker date="1559353620794" expanded="true" signature="10320:10332" ph="..." />
           </folding>
         </state>
       </provider>

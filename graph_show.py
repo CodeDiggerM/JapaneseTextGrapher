@@ -59,7 +59,6 @@ class GraphShow():
     def create_page(self, events):
         """Read data"""
         nodes = []
-        print(events)
         for event in events:
             nodes.append(event[0])
             nodes.append(event[1])
@@ -77,9 +76,9 @@ class GraphShow():
 
         for edge in events:
             data = {}
-            data['from'] = node_dict.get(edge[0][0])
+            data['from'] = node_dict.get(edge[0][0])[0]
             data['label'] = ''
-            data['to'] = node_dict.get(edge[1][0])
+            data['to'] = node_dict.get(edge[1][0])[0]
             data_edges.append(data)
 
         self.create_html(data_nodes, data_edges)

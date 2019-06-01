@@ -60,7 +60,7 @@ class TextrankGraph:
 
 class TextRank:
     """Extract keywords based on textrank graph algorithm"""
-    def __init__(self, candi_pos = ['名词', '組織名', '動詞', '地名'], stop_pos=  ['副詞', '数詞', '副詞	']):
+    def __init__(self, candi_pos = ['名词', '組織名', '動詞', '地名','人名'], stop_pos=  ['副詞', '数詞', '副詞']):
         self.candi_pos = candi_pos
         self.stop_pos = stop_pos
         self.span = 5

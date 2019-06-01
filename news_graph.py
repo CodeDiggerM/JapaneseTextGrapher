@@ -319,6 +319,7 @@ class NewsMining():
         keywords = [i[0] for i in self.extract_keywords(words_postags)]
         for keyword in keywords:
             name = keyword
+            print(keyword)
             cate = 'キーワード'
             events.append([name, cate])
 

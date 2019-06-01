@@ -42,6 +42,9 @@ class NewsMining():
 
 
     def load_stopwords(self, path):
+        import os
+        cwd = os.getcwd()
+        print(cwd)
         file_handle = io.open(path, mode="r", encoding="utf8")
         result = {}
 
@@ -50,7 +53,7 @@ class NewsMining():
             if v not in result and len(v) > 0:
                 try:
                     result[v.decode("utf8")] = True
-                except UnicodeEncodeError:
+                except:
                     result[v] = True
 
         return result

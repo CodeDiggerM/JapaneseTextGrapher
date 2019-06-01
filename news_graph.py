@@ -94,10 +94,9 @@ class NewsMining():
                         obj = " " + genki
                     if len(sub) > 0 and len(verb) > 0 and len(obj) > 0:
                         break
-            sov += [(sub, verb + obj)]
             if len(sub) > 0 or len(verb) > 0 or len(obj) > 0:
                 print(u":".join([sub, verb, obj]))
-
+                sov += [(sub, verb + obj)]
             if bnst.parent_id != -1:
                 # (from, to)
                 genki = bnst.mrph_list()[0].genkei
@@ -120,7 +119,6 @@ class NewsMining():
     def clean_spaces(self, s):
         s = s.replace('\r', '')
         s = s.replace('\t', ' ')
-        s = s.replace('\n', ' ')
         return s
 
     def remove_noisy(self, content):
@@ -300,6 +298,8 @@ class NewsMining():
                     collected_ners += [word]
 
         for sent in sents:
+            if len(sent) <= 1:
+                continue
             word_pairs, sov = self.select_dependency_structure(sent)
             for word_pair in word_pairs:
                 check_and_fill(word_pair[0],
@@ -318,7 +318,7 @@ class NewsMining():
         keywords = [i[0] for i in self.extract_keywords(words_postags)]
         for keyword in keywords:
             name = keyword
-            cate = 'keyword'
+            cate = 'キーワード'
             events.append([name, cate])
 
         # 04 add triples to event only the word in keyword
@@ -331,7 +331,7 @@ class NewsMining():
                                         ]).most_common(10)]
         for wd in word_dict:
             name = wd
-            cate = 'frequency'
+            cate = '頻出単語'
             events.append([name, cate])
 
         # 06 get NER from whole article

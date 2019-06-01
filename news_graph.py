@@ -12,12 +12,12 @@ from word import Word
 class NewsMining():
     """News Mining"""
     MOST_FREQUENTLY = 5
-    FREQUENCY_COLOR = "rgba(255,255,102,0.8)"
-    KEYWORD_COLOR = "rgba(255,51,51,0.8)"
-    NER_COLOR = "rgba(102,204,102,0.8)"
-    SVO_COLOR = "rgba(102,153,255,0.8)"
-    TYPE_COLOR = "rgba(204,204,51,0.8)"
-    DEFAULT_COLOR = "rgba(51,255,153,0.8)"
+    FREQUENCY_COLOR = "rgba(255,255,102,0.9)"
+    KEYWORD_COLOR = "rgba(255,51,51,0.9)"
+    NER_COLOR = "rgba(102,204,102,0.9)"
+    SVO_COLOR = "rgba(102,153,255,0.9)"
+    TYPE_COLOR = "rgba(204,204,51,0.9)"
+    DEFAULT_COLOR = "rgba(102,204,204,0.9)"
     def __init__(self,
                  knppath="/home/sasano/usr/bin/knp",
                  juman="/home/sasano/usr/bin/juman",
@@ -335,10 +335,10 @@ class NewsMining():
         # 04 add triples to event only the word in keyword
         for t in triples:
             if (t[0] in keywords or t[1] in keywords) and len(t[0]) > 1 and len(t[1]) > 1:
-                events.append([[t[0], self.DEFAULT_COLOR], [t[1], self.DEFAULT_COLOR]])
+                events.append([[t[0], self.SVO_COLOR], [t[1], self.SVO_COLOR]])
                 if len(t[2]) > 0:
-                    events.append([[t[1],self.DEFAULT_COLOR],
-                                   [t[2], self.DEFAULT_COLOR]])
+                    events.append([[t[1], self.SVO_COLOR],
+                                   [t[2], self.SVO_COLOR]])
 
         # 05 get word frequency and add to events
         word_dict = [i[0] for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event

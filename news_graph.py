@@ -15,7 +15,7 @@ class NewsMining():
                  knppath="/home/sasano/usr/bin/knp",
                  juman="/home/sasano/usr/bin/juman",
                  ):
-        self.textranker = TextRank()
+        self.textranker = TextRank(span=10)
         self.ners = ['人名', '組織名', '地名']
         self.condi_for_event = ['名詞', '動詞', '形容詞']
         self.ner_dict = {
@@ -121,11 +121,17 @@ class NewsMining():
         s = s.replace(' ', '')
         return s
 
+    def remove_chars(self, text, cahr_set):
+        table = {ord(char): None for char in cahr_set}
+        return text.translate(table)
+
     def remove_noisy(self, content):
         """Remove brackets"""
         p1 = re.compile(r'（[^）]*）')
         p2 = re.compile(r'\([^\)]*\)')
-        return p2.sub('', p1.sub('', content))
+        text = p2.sub('', p1.sub('', content))
+        text = self.removeChars(text, "1234567890")
+        return self.removeChars(text, u"1234567890")
 
     def collect_ners(self, ents):
         """Collect token only with PERSON, ORG, GPE"""

@@ -1,4 +1,4 @@
-    <html>
+<html>
     <head>
       <script type="text/javascript" src="VIS/dist/vis.js"></script>
       <link href="VIS/dist/vis.css" rel="stylesheet" type="text/css">
@@ -9,8 +9,8 @@
     <div id="VIS_draw"></div>
 
     <script type="text/javascript">
-      var nodes = [{'group': 'Event', 'id': 0, 'label': '渡す'}, {'group': 'Event', 'id': 15, 'label': 'frequency'}, {'group': 'Event', 'id': 2, 'label': '読む'}, {'group': 'Event', 'id': 4, 'label': '本'}, {'group': 'Event', 'id': 33, 'label': '花子'}, {'group': 'Event', 'id': 32, 'label': '次郎'}, {'group': 'Event', 'id': 31, 'label': '太郎'}, {'group': 'Event', 'id': 12, 'label': '.'}, {'group': 'Event', 'id': 14, 'label': 'た'}, {'group': 'Event', 'id': 21, 'label': '人名'}];
-      var edges = [{'from': 0, 'label': '', 'to': 15}, {'from': 2, 'label': '', 'to': 15}, {'from': 4, 'label': '', 'to': 15}, {'from': 33, 'label': '', 'to': 15}, {'from': 32, 'label': '', 'to': 15}, {'from': 31, 'label': '', 'to': 15}, {'from': 12, 'label': '', 'to': 15}, {'from': 14, 'label': '', 'to': 15}, {'from': 33, 'label': '', 'to': 21}, {'from': 32, 'label': '', 'to': 21}, {'from': 31, 'label': '', 'to': 21}, {'from': 31, 'label': '', 'to': 33}, {'from': 31, 'label': '', 'to': 32}, {'from': 33, 'label': '', 'to': 31}, {'from': 33, 'label': '', 'to': 32}, {'from': 32, 'label': '', 'to': 31}, {'from': 32, 'label': '', 'to': 33}];
+      var nodes = [{'group': 'Event', 'id': 0, 'label': '読む'}, {'group': 'Event', 'id': 11, 'label': '頻出単語'}, {'group': 'Event', 'id': 2, 'label': '渡す'}, {'group': 'Event', 'id': 4, 'label': '本'}, {'group': 'Event', 'id': 29, 'label': '花子'}, {'group': 'Event', 'id': 28, 'label': '次郎'}, {'group': 'Event', 'id': 27, 'label': '太郎'}, {'group': 'Event', 'id': 17, 'label': '人名'}];
+      var edges = [{'from': 0, 'label': '', 'to': 11}, {'from': 2, 'label': '', 'to': 11}, {'from': 4, 'label': '', 'to': 11}, {'from': 29, 'label': '', 'to': 11}, {'from': 28, 'label': '', 'to': 11}, {'from': 27, 'label': '', 'to': 11}, {'from': 29, 'label': '', 'to': 17}, {'from': 28, 'label': '', 'to': 17}, {'from': 27, 'label': '', 'to': 17}, {'from': 27, 'label': '', 'to': 29}, {'from': 27, 'label': '', 'to': 28}, {'from': 29, 'label': '', 'to': 27}, {'from': 29, 'label': '', 'to': 28}, {'from': 28, 'label': '', 'to': 27}, {'from': 28, 'label': '', 'to': 29}];
 
       var container = document.getElementById("VIS_draw");
 
@@ -48,4 +48,3 @@
     </script>
     </body>
     </html>
-    

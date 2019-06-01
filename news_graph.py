@@ -7,7 +7,7 @@ import io
 from pyknp import Juman, KNP
 import re
 import nltk
-
+from word import Word
 
 class NewsMining():
     """News Mining"""
@@ -103,15 +103,18 @@ class NewsMining():
                 genki = bnst.mrph_list()[0].genkei
                 hinsi = bnst.mrph_list()[0].hinsi
                 bunrui = bnst.mrph_list()[0].bunrui
+
+
                 genki_p = bnst.parent.mrph_list()[0].genkei
                 hinsi_p = bnst.parent.mrph_list()[0].hinsi
                 bunrui_p = bnst.parent.mrph_list()[0].bunrui
-                tuples.append([genki,
-                               hinsi,
-                               bunrui,
-                               genki_p,
-                               hinsi_p,
-                               bunrui_p])
+
+                tuples.append([Word(genki,
+                                    hinsi,
+                                    bunrui),
+                               Word(genki_p,
+                                    hinsi_p,
+                                    bunrui_p)])
         return tuples, sov
 
     def clean_spaces(self, s):

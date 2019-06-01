@@ -38,7 +38,7 @@ class GraphShow():
                   size: 10,
                   align: 'center'
               },
-              color: 'red',
+              color: 'rgba(51,51,51,1)',
               arrows: {
                   to: {enabled: true, scaleFactor: 1.2}
               },

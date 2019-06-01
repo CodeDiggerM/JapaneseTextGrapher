@@ -97,7 +97,7 @@ class NewsMining():
                             break
             if (len(sub) > 0 or len(obj) > 0) and len(verb) > 0:
                 print(u":".join([sub, verb, obj]))
-                sov += [(sub, verb + obj)]
+                sov += [(sub, verb, obj)]
             if bnst.parent_id != -1 and bnst.mrph_list()[0].genkei not in self.stop_word:
                 # (from, to)
                 genki = bnst.mrph_list()[0].genkei

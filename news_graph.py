@@ -8,6 +8,7 @@ from pyknp import Juman, KNP
 import re
 import nltk
 from word import Word
+import gc
 
 class NewsMining():
     """News Mining"""
@@ -312,6 +313,7 @@ class NewsMining():
         for sent in sents:
             if len(sent) <= 1:
                 continue
+            gc.collect()
             word_pairs, sov = self.select_dependency_structure(sent)
             for word_pair in word_pairs:
                 check_and_fill(word_pair[0],

@@ -60,10 +60,11 @@ class GraphShow():
     def create_page(self, events):
         """Read data"""
         nodes = []
+        print(events)
         for event in events:
             nodes.append(event[0])
             nodes.append(event[1])
-        node_dict = {node[0]: (index,node[1]) for index, node in enumerate(nodes)}
+        node_dict = {node[0]: (index, node[1]) for index, node in enumerate(nodes)}
 
         data_nodes = []
         data_edges = []

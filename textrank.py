@@ -75,7 +75,7 @@ class TextRank:
                         break
                     if (word_list[j].hinsi not in self.candi_pos and word_list[j].bunrui not in self.candi_pos) or word_list[j][1] in self.stop_pos:
                         continue
-                    pair = tuple((word[0], word_list[j][0]))
+                    pair = tuple((word.word, word_list[j].word))
                     cm[(pair)] += 1
 
         # cm = {('was', 'prison'): 1, ('become', 'prison'): 1}

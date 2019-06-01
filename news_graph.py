@@ -13,7 +13,7 @@ class NewsMining():
     """News Mining"""
     MOST_FREQUENTLY = 5
     FREQUENCY_COLOR = "rgba(255,255,102,0.9)"
-    KEYWORD_COLOR = "rgba(255,51,51,0.9)"
+    KEYWORD_COLOR = "rgba(255,102,153,0.9)"
     NER_COLOR = "rgba(102,204,102,0.9)"
     VERB_COLOR = "rgba(102,153,255,0.9)"
     TYPE_COLOR = "rgba(204,204,51,0.9)"

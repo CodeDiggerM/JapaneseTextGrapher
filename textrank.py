@@ -73,7 +73,7 @@ class TextRank:
                 for j in range(i + 1, i + self.span):
                     if j >= len(word_list):
                         break
-                    if (word_list[j].hinsi not in self.candi_pos and word_list[j].bunrui not in self.candi_pos) or word_list[j][1] in self.stop_pos:
+                    if (word_list[j].hinsi not in self.candi_pos and word_list[j].bunrui not in self.candi_pos) or word_list[j].word in self.stop_pos:
                         continue
                     pair = tuple((word.word, word_list[j].word))
                     cm[(pair)] += 1

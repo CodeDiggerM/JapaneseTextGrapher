@@ -60,23 +60,23 @@ class TextrankGraph:
 
 class TextRank:
     """Extract keywords based on textrank graph algorithm"""
-    def __init__(self):
-        self.candi_pos = ['NOUN', 'PROPN', 'VERB'] # 名词，专有名词，动词
-        self.stop_pos = ['NUM', 'ADV'] # 数字（没有时间名词，就用数字代表了），副词
+    def __init__(self, candi_pos = ['名词', '組織名', '動詞', '地名'], stop_pos=  ['副詞', '数詞', '副詞	']):
+        self.candi_pos = candi_pos
+        self.stop_pos = stop_pos
         self.span = 5
 
     def extract_keywords(self, word_list, num_keywords):
         g = TextrankGraph()
         cm = defaultdict(int)
         for i, word in enumerate(word_list): # word_list = [['previous', 'ADJ'], ['rumor', 'NOUN']]
-            if word[1] in self.candi_pos and len(word[0]) > 1: # word = ['previous', 'ADJ']
+            if word.word in self.candi_pos: # word = ['previous', 'ADJ']
                 for j in range(i + 1, i + self.span):
                     if j >= len(word_list):
                         break
-                    if word_list[j][1] not in self.candi_pos or word_list[j][1] in self.stop_pos or len(word_list[j][0]) < 2:
+                    if (word_list[j].hinsi not in self.candi_pos and word_list[j].bunrui not in self.candi_pos) or word_list[j][1] in self.stop_pos:
                         continue
                     pair = tuple((word[0], word_list[j][0]))
-                    cm[(pair)] +=  1
+                    cm[(pair)] += 1
 
         # cm = {('was', 'prison'): 1, ('become', 'prison'): 1}
         for terms, w in cm.items():

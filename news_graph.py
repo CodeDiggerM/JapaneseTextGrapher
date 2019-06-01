@@ -5,27 +5,120 @@ from collections import Counter
 import spacy
 from graph_show import GraphShow
 from textrank import TextRank
-
-
-nlp = spacy.load('en_core_web_lg')
+import MeCab
+import io
+from pyknp import Juman, KNP
+import re
+import nltk
+import sys
+import os
+import codecs
+from word import Word
 
 class NewsMining():
     """News Mining"""
-    def __init__(self):
+    def __init__(self,
+                 knppath="/home/sasano/usr/bin/knp",
+                 juman="/home/sasano/usr/bin/juman",
+                 ):
         self.textranker = TextRank()
-        self.ners = ['PERSON', 'ORG', 'GPE']
+        self.ners = ['人名', '組織名', '地名']
+        self.condi_for_event = ['名詞', '動詞', '形容詞']
         self.ner_dict = {
-            'PERSON': 'Person',  # People, including fictional
-            'ORG': 'Organization',  # Companies, agencies, institutions, etc.
-            'GPE': 'Location',  # Countries, cities, states.
+            '人名': '人名',  # People, including fictional
+            '組織名': '組織名',  # Companies, agencies, institutions, etc.
+            '地名': '地名',  # Countries, cities, states.
         }
         # dependency markers for subjects
-        self.SUBJECTS = {"nsubj", "nsubjpass",
-                         "csubj", "csubjpass", "agent", "expl"}
+        self.SUBJECTS = {"nsubj",
+                         "nsubjpass",
+                         "csubj",
+                         "csubjpass",
+                         "agent",
+                         "expl"}
+        self.NUM_KEYWORD = 10
         # dependency markers for objects
         self.OBJECTS = {"dobj", "dative", "attr", "oprd"}
+        self.stop_word = self.loadStopWords("stop_words")
 
         self.graph_shower = GraphShow()
+        self.knp = KNP(command=knppath,
+                       jumancommand=juman,
+                       option='-tab -anaphora')
+
+
+    def load_stopwords(self, path):
+        file_handle = io.open(path, mode="r", encoding="utf8")
+        result = {}
+
+        for v in file_handle.readlines():
+            v = v.strip()
+            if v not in result and len(v) > 0:
+                try:
+                    result[v.decode("utf8")] = True
+                except UnicodeEncodeError:
+                    result[v] = True
+
+        return result
+
+    def select_normalization_representative_notation(self, fstring):
+        """ 正規化代表表記を抽出します
+        """
+        begin = fstring.find('正規化代表表記:')
+        end = fstring.find('/', begin + 1)
+        return fstring[begin + len('正規化代表表記:'): end]
+
+    def select_dependency_structure(self, line):
+        """係り受け構造を抽出します
+        """
+        # 解析
+        result = self.knp.parse(line)
+
+        # 文節リスト
+        bnst_list = result.bnst_list()
+        tuples = []
+        sov = []
+        for bnst in bnst_list:
+            nodes = []
+            node = bnst
+            while node and not bnst.children:
+                nodes += [node]
+                node = node.parent
+            sub = ""
+            verb = ""
+            obj = ""
+            for node in nodes:
+                if node.mrph_list():
+                    genki = node.mrph_list()[0].genkei
+                    hinsi = node.mrph_list()[0].hinsi
+                    # print(genki,hinsi )
+                    if u"名詞" in hinsi and len(sub) == 0:
+                        sub = genki
+                    elif u"動詞" in hinsi:
+                        verb = genki
+                    elif u"名詞" in hinsi and len(obj) == 0:
+                        obj = " " + genki
+                    if len(sub) > 0 and len(verb) > 0 and len(obj) > 0:
+                        break
+            sov += [(sub, verb + obj)]
+            if len(sub) > 0 or len(verb) > 0 or len(obj) > 0:
+                print(u":".join([sub, verb, obj]))
+
+            if bnst.parent_id != -1:
+                # (from, to)
+                genki = bnst.mrph_list()[0].genkei
+                hinsi = bnst.mrph_list()[0].hinsi
+                bunrui = bnst.mrph_list()[0].bunrui
+                genki_p = bnst.parent.mrph_list()[0].genkei
+                hinsi_p = bnst.parent.mrph_list()[0].hinsi
+                bunrui_p = bnst.parent.mrph_list()[0].bunrui
+                tuples.append([genki,
+                               hinsi,
+                               bunrui,
+                               genki_p,
+                               hinsi_p,
+                               bunrui_p])
+        return tuples, sov
 
     def clean_spaces(self, s):
         s = s.replace('\r', '')
@@ -133,7 +226,7 @@ class NewsMining():
         return svo
 
     def extract_keywords(self, words_postags):
-        return self.textranker.extract_keywords(words_postags, 10)
+        return self.textranker.extract_keywords(words_postags, self.NUM_KEYWORD)
 
     def collect_coexist(self, ner_sents, ners):
         """Construct NER co-occurrence matrices"""
@@ -158,6 +251,31 @@ class NewsMining():
                 combines.append('@'.join([i, j]))
         return combines
 
+    @staticmethod
+    def is_eniglish(word):
+        try:
+            word.encode('utf8').decode('ascii')
+        except UnicodeDecodeError:
+            return False
+        else:
+            return True
+    @staticmethod
+    def is_number(word):
+        try:
+            float(word)
+            return True
+        except ValueError:
+            pass
+
+        try:
+            import unicodedata
+            unicodedata.numeric(word)
+            return True
+        except (TypeError, ValueError):
+            pass
+        return False
+
+
     def main(self, content):
         '''Main function'''
         if not content:
@@ -168,29 +286,36 @@ class NewsMining():
         ners = []           # store all NER entity from whole article
         triples = []        # store subject verb object
         events = []         # store events
-
+        collected_ners = []
         # 01 remove linebreaks and brackets
         content = self.remove_noisy(content)
         content = self.clean_spaces(content)
+        sents = nltk.RegexpTokenizer(u'[^　！？。.]*[！？。.\n]').tokenize(content)
 
-        # 02 split to sentences
-        doc = nlp(content)
+        def check_and_fill(word,
+                           words_postags,
+                           collected_ners):
+            if self.is_eniglish(word.word):
+                word.word = word.word.lower()
+            if word not in self.stop_word and not self.is_number(word.word):
+                words_postags += [word]
+                if word.bunrui in self.ners:
+                    collected_ners += [word.word]
 
-        for i, sent in enumerate(doc.sents):
-            words_postags = [[token.text, token.pos_] for token in sent]
-            words = [token.text for token in sent]
-            postags = [token.pos_ for token in sent]
-            ents = nlp(sent.text).ents  # NER detection
-            collected_ners = self.collect_ners(ents)
+        for sent in sents:
+            word_pairs, sov = self.select_dependency_structure(sent)
+            for word_pair in word_pairs:
+                check_and_fill(word_pair[0],
+                               words_postags,
+                               collected_ners)
+                check_and_fill(word_pair[1],
+                               words_postags,
+                               collected_ners)
 
-            if collected_ners:  # only extract triples when the sentence contains 'PERSON', 'ORG', 'GPE'
-                triple = self.extract_triples(sent)
-                if not triple:
-                    continue
-                triples += triple
+            if collected_ners:
+                triples += sov
                 ners += collected_ners
-                ner_sents.append(
-                    [token.text + '/' + token.label_ for token in sent.ents])
+                ner_sents.append([word.word + '/' + word.bunrui for word in words_postags])
 
         # 03 get keywords
         keywords = [i[0] for i in self.extract_keywords(words_postags)]
@@ -205,18 +330,18 @@ class NewsMining():
                 events.append([t[0], t[1]])
 
         # 05 get word frequency and add to events
-        word_dict = [i for i in Counter([i[0] for i in words_postags if i[1] in [
-                                        'NOUN', 'PROPN', 'VERB'] and len(i[0]) > 1]).most_common()][:10]
+        word_dict = [i for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event
+                                        ]).most_common()][:10]
         for wd in word_dict:
-            name = wd[0]
+            name = wd.word
             cate = 'frequency'
             events.append([name, cate])
 
         # 06 get NER from whole article
-        ner_dict = {i[0]: i[1] for i in Counter(ners).most_common(20)}
+        ner_dict = {word.word + '/' + word.bunrui : word for word in Counter(ners).most_common(20)}
         for ner in ner_dict:
-            name = ner.split('/')[0]  # Jessica Miller
-            cate = self.ner_dict[ner.split('/')[1]]  # PERSON
+            name = ner_dict[ner].word # Jessica Miller
+            cate = ner_dict[ner].bunrui  # PERSON
             events.append([name, cate])
 
         # 07 get all NER entity co-occurrence information

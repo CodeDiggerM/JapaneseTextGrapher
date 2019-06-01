@@ -69,13 +69,12 @@ class TextRank:
         g = TextrankGraph()
         cm = defaultdict(int)
         for i, word in enumerate(word_list): # word_list = [['previous', 'ADJ'], ['rumor', 'NOUN']]
-            if word.word in self.candi_pos: # word = ['previous', 'ADJ']
+            if word.hinsi in self.candi_pos or word.bunrui in self.candi_pos: # word = ['previous', 'ADJ']
                 for j in range(i + 1, i + self.span):
                     if j >= len(word_list):
                         break
                     if (word_list[j].hinsi not in self.candi_pos and word_list[j].bunrui not in self.candi_pos) or word_list[j][1] in self.stop_pos:
                         continue
-                    print("1111111111111111")
                     pair = tuple((word[0], word_list[j][0]))
                     cm[(pair)] += 1
 

@@ -1,4 +1,5 @@
-<html>
+
+    <html>
     <head>
       <script type="text/javascript" src="VIS/dist/vis.js"></script>
       <link href="VIS/dist/vis.css" rel="stylesheet" type="text/css">
@@ -9,8 +10,8 @@
     <div id="VIS_draw"></div>
 
     <script type="text/javascript">
-      var nodes = [{'group': 'Event', 'id': 0, 'label': '読む'}, {'group': 'Event', 'id': 11, 'label': '頻出単語'}, {'group': 'Event', 'id': 2, 'label': '渡す'}, {'group': 'Event', 'id': 4, 'label': '本'}, {'group': 'Event', 'id': 29, 'label': '花子'}, {'group': 'Event', 'id': 28, 'label': '次郎'}, {'group': 'Event', 'id': 27, 'label': '太郎'}, {'group': 'Event', 'id': 17, 'label': '人名'}];
-      var edges = [{'from': 0, 'label': '', 'to': 11}, {'from': 2, 'label': '', 'to': 11}, {'from': 4, 'label': '', 'to': 11}, {'from': 29, 'label': '', 'to': 11}, {'from': 28, 'label': '', 'to': 11}, {'from': 27, 'label': '', 'to': 11}, {'from': 29, 'label': '', 'to': 17}, {'from': 28, 'label': '', 'to': 17}, {'from': 27, 'label': '', 'to': 17}, {'from': 27, 'label': '', 'to': 29}, {'from': 27, 'label': '', 'to': 28}, {'from': 29, 'label': '', 'to': 27}, {'from': 29, 'label': '', 'to': 28}, {'from': 28, 'label': '', 'to': 27}, {'from': 28, 'label': '', 'to': 29}];
+      var nodes = [{'group': 'Event', 'id': 22, 'label': '溢れる', 'color': 'rgba(102,204,204,0.9)'}, {'group': 'Event', 'id': 7, 'label': 'キーワード', 'color': 'rgba(255,102,153,0.9)'}, {'group': 'Event', 'id': 30, 'label': '宮崎', 'color': 'rgba(102,204,204,0.9)'}, {'group': 'Event', 'id': 26, 'label': 'いる', 'color': 'rgba(102,204,204,0.9)'}, {'group': 'Event', 'id': 6, 'label': '感じる', 'color': 'rgba(102,204,204,0.9)'}, {'group': 'Event', 'id': 10, 'label': '作者', 'color': 'rgba(102,153,255,0.9)'}, {'group': 'Event', 'id': 18, 'label': '登場', 'color': 'rgba(102,153,255,0.9)'}, {'group': 'Event', 'id': 29, 'label': '頻出単語', 'color': 'rgba(255,255,102,0.9)'}, {'group': 'Event', 'id': 24, 'label': '漫画', 'color': 'rgba(102,204,204,0.9)'}, {'group': 'Event', 'id': 28, 'label': '面白い', 'color': 'rgba(102,204,204,0.9)'}, {'group': 'Event', 'id': 31, 'label': '人名', 'color': 'rgba(204,204,51,0.9)'}];
+      var edges = [{'from': 22, 'label': '', 'to': 7}, {'from': 30, 'label': '', 'to': 7}, {'from': 26, 'label': '', 'to': 7}, {'from': 6, 'label': '', 'to': 7}, {'from': 10, 'label': '', 'to': 30}, {'from': 10, 'label': '', 'to': 30}, {'from': 18, 'label': '', 'to': 26}, {'from': 18, 'label': '', 'to': 26}, {'from': 18, 'label': '', 'to': 26}, {'from': 18, 'label': '', 'to': 26}, {'from': 30, 'label': '', 'to': 29}, {'from': 22, 'label': '', 'to': 29}, {'from': 24, 'label': '', 'to': 29}, {'from': 26, 'label': '', 'to': 29}, {'from': 28, 'label': '', 'to': 29}, {'from': 30, 'label': '', 'to': 31}];
 
       var container = document.getElementById("VIS_draw");
 
@@ -32,7 +33,7 @@
                   size: 10,
                   align: 'center'
               },
-              color: 'red',
+              color: 'rgba(51,51,51,1)',
               arrows: {
                   to: {enabled: true, scaleFactor: 1.2}
               },
@@ -48,3 +49,4 @@
     </script>
     </body>
     </html>
+    

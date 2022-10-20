@@ -20,8 +20,8 @@ class NewsMining():
     TYPE_COLOR = "rgba(204,204,51,0.9)"
     DEFAULT_COLOR = "rgba(102,204,204,0.9)"
     def __init__(self,
-                 knppath="/home/sasano/usr/bin/knp",
-                 juman="/home/sasano/usr/bin/juman",
+                 knppath="knp",
+                 juman="juman",
                  ):
         self.textranker = TextRank(span=10)
         self.ners = ['人名', '組織名', '地名']
@@ -110,7 +110,7 @@ class NewsMining():
                 if len(verb) > 0:
                     tmp += [verb]
                 if len(tmp) > 1:
-                sov += [tmp]
+                    sov += [tmp]
             if bnst.parent_id != -1 and bnst.mrph_list()[0].genkei not in self.stop_word:
                 # (from, to)
                 genki = bnst.mrph_list()[0].genkei
@@ -352,8 +352,8 @@ class NewsMining():
             if (t[0] in keywords or t[1] in keywords) and len(t[0]) > 1 and len(t[1]) > 1:
                 events.append([[t[0], self.DEFAULT_COLOR], [t[1], self.VERB_COLOR]])
                 if len(t) > 1:
-                    events.append([[t[1], self.VERB_COLOR],
-                                   [t[2], self.DEFAULT_COLOR]])
+                    events.append([[t[0], self.VERB_COLOR],
+                                   [t[1], self.DEFAULT_COLOR]])
 
         # 05 get word frequency and add to events
         word_dict = [i[0] for i in Counter([word.word for word in words_postags if word.hinsi in self.condi_for_event

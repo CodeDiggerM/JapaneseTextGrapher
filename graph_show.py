@@ -79,6 +79,9 @@ class GraphShow():
             data['from'] = node_dict.get(edge[0][0])[0]
             data['label'] = ''
             data['to'] = node_dict.get(edge[1][0])[0]
+            if len(edge) > 2:
+                data['width'] = edge[2]
+                data['scaling'] = {"max": data['width']}
             data_edges.append(data)
 
         self.create_html(data_nodes, data_edges)

@@ -9,6 +9,7 @@ import re
 import nltk
 from word import Word
 import gc
+from tqdm import tqdm
 
 class NewsMining():
     """News Mining"""
@@ -267,6 +268,13 @@ class NewsMining():
                 combines.append('@'.join([i, j]))
         return combines
 
+    def create_page_from_word_df(self, words):
+        events = []
+        for i, row in tqdm(words.iterrows(), total=words.shape[0]):
+            events.append([[row["from"], self.DEFAULT_COLOR], [row["to"], self.KEYWORD_COLOR], row["weight"]])
+        self.graph_shower.create_page(events)
+
+
     @staticmethod
     def is_eniglish(word):
         try:
@@ -379,3 +387,5 @@ class NewsMining():
 
         # 08 show event graph
         self.graph_shower.create_page(events)
+
+
